@@ -37,7 +37,7 @@ if on_rtd:
     with open("docs/requirements_rtd.txt") as f:
         requirements.extend(f.read().splitlines())
 
-version = "{{__VERSION__}}"
+version = "1.0.0a"
 
 readme = ""
 with open("README.rst") as f:

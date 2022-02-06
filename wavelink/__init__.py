@@ -24,13 +24,8 @@ SOFTWARE.
 __title__ = "WaveLink"
 __author__ = "PythonistaGuild, EvieePy"
 __license__ = "MIT"
-<<<<<<< HEAD
-__copyright__ = "Copyright 2019-2021 (c) Pythonista, EvieePy"
-__version__ = "1.0.0a"
-=======
 __copyright__ = "Copyright 2019-2022 (c) PythonistaGuild, EvieePy"
-__version__ = "1.0.0"
->>>>>>> 1651c8a0a54d864203168f7d58253ae7bc4906fa
+__version__ = "1.0.1"
 
 
 from .backoff import Backoff

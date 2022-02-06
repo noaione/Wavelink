@@ -40,12 +40,8 @@ if on_rtd:
     with open("docs/requirements_rtd.txt") as f:
         requirements.extend(f.read().splitlines())
 
-<<<<<<< HEAD
-version = "1.0.0a"
-=======
 with open(ROOT / "wavelink" / "__init__.py", encoding="utf-8") as f:
     VERSION = re.search(r'^__version__\s*=\s*[\'"]([^\'"]*)[\'"]', f.read(), re.MULTILINE).group(1)
->>>>>>> 1651c8a0a54d864203168f7d58253ae7bc4906fa
 
 readme = ""
 with open("README.rst") as f:

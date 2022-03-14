@@ -21,12 +21,14 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+from __future__ import annotations
+
 import asyncio
 import base64
 import enum
 import re
 import time
-from typing import List, Optional, Type, TypeVar, Union
+from typing import TYPE_CHECKING, List, Optional, Type, TypeVar, Union
 
 import aiohttp
 from disnake.ext import commands
@@ -34,6 +36,9 @@ from disnake.ext import commands
 import wavelink
 from wavelink import Node, NodePool, PartialTrack, YouTubeTrack
 from wavelink.utils import MISSING
+
+if TYPE_CHECKING:
+    from wavelink.tracks import SearchableTrack
 
 
 __all__ = ('SpotifySearchType',

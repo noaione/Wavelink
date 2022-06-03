@@ -166,8 +166,8 @@ class Player(disnake.VoiceProtocol):
                 op="voiceUpdate", guildId=str(self.guild.id), **voice_state
             )
 
-    async def connect(self, *, timeout: float, reconnect: bool) -> None:
-        await self.guild.change_voice_state(channel=self.channel)
+    async def connect(self, *, timeout: float, reconnect: bool, **kwargs: Any) -> None:
+        await self.guild.change_voice_state(channel=self.channel, **kwargs)
         self._connected = True
 
         logger.info(f"Connected to voice channel:: {self.channel.id}")
@@ -181,6 +181,9 @@ class Player(disnake.VoiceProtocol):
         finally:
             with contextlib.suppress(ValueError):
                 self.node._players.remove(self)
+
+            payload = {"op": "destroy", "guildId": str(self.guild.id)}
+            await self.node._websocket.send(**payload)
 
             self.cleanup()
 

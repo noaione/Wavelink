@@ -31,6 +31,31 @@ __all__ = (
 )
 
 
+"""
+Sample data.
+{
+    "playingPlayers":2,
+    "op":"stats",
+    "memory":{
+        "reservable":1073741824,
+        "used":481201320,
+        "free":215053144,
+        "allocated":696254464
+    },
+    "frameStats":{
+        "sent":3000,"deficit":0,"nulled":0
+    },
+    "players":7,
+    "cpu":{
+        "cores":32,
+        "systemLoad":0.40600596787505555,
+        "lavalinkLoad":0.0026978717021382977
+    },
+    "uptime":187527399
+}
+"""
+
+
 class Penalty:
     def __init__(self, stats: Stats):
         self.player_penalty: int = stats.playing_players

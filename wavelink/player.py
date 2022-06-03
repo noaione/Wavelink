@@ -152,6 +152,7 @@ class Player(disnake.VoiceProtocol):
 
         channel_id = data["channel_id"]
         if not channel_id:  # We're disconnecting
+            self.channel_id = None
             self._voice_state.clear()
             return
 

@@ -71,9 +71,11 @@ class Websocket:
                 code=1006, message=b"WaveLink: Attempting reconnection."
             )
 
+        host = self.host if self.node._https else self.ws_host
+
         try:
             self.websocket = await self.session.ws_connect(
-                self.ws_host, headers=self.headers, heartbeat=self.node._heartbeat
+                host, headers=self.headers, heartbeat=self.node._heartbeat
             )
         except Exception as error:
             if (
@@ -153,6 +155,9 @@ class Websocket:
         if op == 'event':
             event, payload = await self._get_event_payload(data['type'], data)
             logger.debug(f'op: event:: {data}')
+            
+            if event == 'track_end':
+                player._source = None
 
             self.dispatch(event, player, **payload)
 

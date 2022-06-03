@@ -34,6 +34,7 @@ from typing import (
     overload,
 )
 
+import yarl
 from discord.ext import commands
 
 from .abc import *
@@ -181,7 +182,13 @@ class SearchableTrack(Track, Searchable):
         if node is MISSING:
             node = NodePool.get_node()
 
-        if cls._search_type == 'local':
+        check = yarl.URL(query)
+
+        if str(check.host) == 'youtube.com' or str(check.host) == 'www.youtube.com' and check.query.get("list") or \
+                cls._search_type == 'ytpl':
+
+            tracks = await node.get_playlist(cls=YouTubePlaylist, identifier=query)
+        elif cls._search_type == 'local':
             tracks = await node.get_tracks(cls, query)
         else:
             tracks = await node.get_tracks(cls, f"{cls._search_type}:{query}")
@@ -205,6 +212,9 @@ class SearchableTrack(Track, Searchable):
         if not results:
             raise commands.BadArgument("Could not find any songs matching that query.")
 
+        if isinstance(cls, YouTubePlaylist):
+            return results  # type: ignore
+
         return results[0]
 
 
@@ -221,7 +231,7 @@ class YouTubeTrack(SearchableTrack):
     thumb = thumbnail
 
 
-class YouTubeMusicTrack(SearchableTrack):
+class YouTubeMusicTrack(YouTubeTrack):
     """A track created using a search to YouTube Music."""
 
     _search_type: ClassVar[str] = "ytmsearch"
@@ -233,7 +243,7 @@ class SoundCloudTrack(SearchableTrack):
     _search_type: ClassVar[str] = "scsearch"
 
 
-class YouTubePlaylist(Playlist):
+class YouTubePlaylist(SearchableTrack, Playlist):
     """Represents a Lavalink YouTube playlist object.
 
     Attributes
@@ -245,6 +255,8 @@ class YouTubePlaylist(Playlist):
     selected_track: Optional[int]
         The selected video in the playlist. This could be ``None``.
     """
+
+    _search_type: ClassVar[str] = "ytpl"
 
     def __init__(self, data: dict):
         self.tracks: List[YouTubeTrack] = []

@@ -21,19 +21,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+from __future__ import annotations
+
 import asyncio
 import base64
 import enum
 import re
 import time
-from typing import List, Optional, Type, TypeVar, Union
+from typing import TYPE_CHECKING, List, Optional, Type, TypeVar, Union
 
 import aiohttp
-from discord.ext import commands
+from disnake.ext import commands
 
 import wavelink
 from wavelink import Node, NodePool, PartialTrack, YouTubeTrack
 from wavelink.utils import MISSING
+
+if TYPE_CHECKING:
+    from wavelink.tracks import SearchableTrack
 
 
 __all__ = ('SpotifySearchType',
@@ -368,7 +373,7 @@ class SpotifyTrack(YouTubeTrack):
     async def convert(cls: Type[ST], ctx: commands.Context, argument: str) -> ST:
         """Converter which searches for and returns the first track.
 
-        Used as a type hint in a discord.py command.
+        Used as a type hint in a disnake command.
         """
         results = await cls.search(argument)
 
